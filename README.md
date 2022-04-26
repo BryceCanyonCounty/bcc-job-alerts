@@ -22,7 +22,7 @@
 All configurations available in `/config.lua`
 
 
-## Disclaimer
+## Disclaimers and Credits
 I utilized Roids-Dev's [twptp_policealert](https://github.com/Roids-Dev/twprp_policealert) codebase, but made it more self contained to that it can be used as-is. This codebase has not been touch in 2 years, so this was another main reason for me to make this new one.
 
 ## TODO
