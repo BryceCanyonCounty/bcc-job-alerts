@@ -1,12 +1,7 @@
-RegisterNetEvent('bcc:alert')
-AddEventHandler('bcc:alert', function(msg, time, job, blip, x, y, z, shape)
-    TriggerServerEvent('bcc:jobcheck', msg, time, job, blip, x, y, z, shape)
-end)
-
-RegisterNetEvent('bcc:alert2')
-AddEventHandler('bcc:alert2', function(msg, time, job, bliphash, x, y, z, shape)
+RegisterNetEvent('bcc:alertplayer')
+AddEventHandler('bcc:alertplayer', function(msg, time, job, bliphash, x, y, z, shape, radius)
     TriggerEvent("vorp:NotifyLeft", job, msg, 'generic_textures', shape, time)
-    local blip = Citizen.InvokeNative(0x45f13b7e0a15c880, -1282792512, x, y, z, 40.0)
-    Wait(Config.blipTime)--Time till notify blips dispears, 1 min
+    local blip = Citizen.InvokeNative(0x45f13b7e0a15c880, bliphash, x, y, z, radius)
+    Wait(Config.blipTime)
 	RemoveBlip(blip)
 end)
