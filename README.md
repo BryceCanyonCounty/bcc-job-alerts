@@ -1,10 +1,10 @@
 # BCC - Job Alerts
 
-> A RedM Self contained job/role based alert/ping system for Vorp 
+> A RedM  job based alert/ping system for Vorp 
 
 ## Features
 1. Commands that players can utilize to alerts a job + jobgrade
-2. Police and Doctor preconfigured
+2. Police and Doctor preconfigured (/alertdoctor /alertpolice)
 3. Alerts are fully customizable
     - Alert Icon
     - Message
