@@ -2,6 +2,16 @@
 
 > A RedM Self contained job/role based alert/ping system for Vorp 
 
+## Features
+1. Commands that players can utilize to alerts a job + jobgrade
+2. Police and Doctor preconfigured
+3. Alerts are fully customizable
+    - Alert Icon
+    - Message
+    - Timinig
+    - Delays
+4. Custom Alerts are supported via the config!
+
 ## Installation
 1. Download this repo/codebase
 2. Extract and place `bcc-alerts` into your `resources` folder
@@ -19,15 +29,10 @@
 2. All users with the roll `police` get alerted and a 30 second map blip appears where `/alertpolice` was called
 
 ## How-to-configure
-All configurations available in `/config.lua`
-
-
-## Disclaimers and Credits
-I utilized Roids-Dev's [twptp_policealert](https://github.com/Roids-Dev/twprp_policealert) codebase, but made it more self contained so that it can be used as-is. This codebase has not been touch in 2 years, so this was another main reason for me to make this new one.
+All configurations available in `/config.lua`, including custom alerts!
 
 ## TODO
-- Add better config variables
-- Add configurable delay before alert shows.
+- Region support
 
  ## Dependency
  - Vorp Core
