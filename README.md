@@ -50,7 +50,7 @@ local banker_alert = exports['bcc-job-alerts']:RegisterAlert({
     originTime = 40000 --The time the origintext displays (miliseconds)
 })
 
--- 
+-- technically the above would register a command if command = name of command. but we set to nil, and have this command here to demonstrate programmatic usage of SendAlert(src)
 RegisterCommand('TestBanker', function(src)
     banker_alert:SendAlert(src)
 end)
