@@ -31,8 +31,31 @@
 ## How-to-configure
 All configurations available in `/config.lua`, including custom alerts!
 
-## TODO
-- Region support
+## Developer Docs
+```lua
+-- Must register alerts as soon as server starts so that when players join, they can be properly registered for the job alert
+local banker_alert = exports['bcc-job-alerts']:RegisterAlert({
+    name = 'banker', --The name of the alert
+    command = nil, -- the command, this is what players will use with /
+    message = "Taxes need to be done!", -- Message to show to theh police
+    messageTime = 40000, -- Time the message will stay on screen (miliseconds)
+    job = "banker", -- Job the alert is for
+    jobgrade = { 0, 1, 2, 3 }, -- What grades the alert will effect
+    icon = "star", -- The icon the alert will use
+    hash = -1282792512, -- The radius blip
+    radius = 40.0, -- The size of the radius blip
+    blipTime = 60000, -- How long the blip will stay for the job (miliseconds)
+    blipDelay = 5000, -- Delay time before the job is notified (miliseconds)
+    originText = "Hang tight, the bankers have been notified", -- Text displayed to the user who enacted the command
+    originTime = 40000 --The time the origintext displays (miliseconds)
+})
 
- ## Dependency
+-- 
+RegisterCommand('TestBanker', function(src)
+    banker_alert:SendAlert(src)
+end)
+```
+
+## Dependency
+ - bcc-utils
  - Vorp Core

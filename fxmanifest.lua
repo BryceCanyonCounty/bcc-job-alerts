@@ -3,18 +3,21 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 
 game 'rdr3'
 lua54 'yes'
-author 'Bytesizd'
+author 'BCC @ Bytesizd'
 
 server_scripts {
-	'config.lua',
-	'server/main.lua'
+	'server/main.lua',
+    'server/api.lua'
 }
 
 client_scripts {
-	'config.lua',
 	'client/main.lua',
+}
+
+shared_scripts {
+	'config.lua'
 }
 
 dependency 'vorp_core'
 
-version '2.0.0'
+version '2.1.0'

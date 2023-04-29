@@ -5,23 +5,35 @@ TriggerEvent("getCore",function(core)
     VorpCore = core
 end)
 
-local function AlertPlayer(src, alert)
+function DumpTable(o)
+    if type(o) == 'table' then
+        local s = '{ '
+        for k,v in pairs(o) do
+           if type(k) ~= 'number' then k = '"'..k..'"' end
+           s = s .. '['..k..'] = ' .. DumpTable(v) .. ','
+        end
+        return s .. '} '
+     else
+        return tostring(o)
+     end
+  end
+
+function AlertPlayer(src, alert)
     local OriginUser = VorpCore.getUser(src).getUsedCharacter
     local pos = json.decode(OriginUser.coords)
     TriggerClientEvent("vorp:TipBottom", src, alert.originText, alert.originTime) --Send message to alerter
-
 
     Wait(alert.blipDelay)
 
     for key, jg in pairs(alert.jobgrade) do
         for K, person in pairs(AlertsGroups[alert.job][tostring(jg)]) do
+            print("SENDING ALERT TO", person)
             TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
-        end 
+        end
     end
 end
 
-
-local function RegisterAlert(alert)
+function RegisterAlert(alert)
     if not AlertsGroups[alert.job] then
         AlertsGroups[alert.job] = {}
     end
@@ -32,25 +44,30 @@ local function RegisterAlert(alert)
         end
     end
 
-    RegisterCommand(alert.command, function(source, args, rawCommand)
-        local src = source
-        AlertPlayer(src, alert)
-    end)
-end
-
-local function setupAlerts()
-    for index, alert in ipairs(Config.Alerts) do
-        RegisterAlert(alert)
+    if alert.command then
+        RegisterCommand(alert.command, function(source, args, rawCommand)
+            local src = source
+            AlertPlayer(src, alert)
+        end) 
     end
+
+    print("Alert Registered!", alert.name)
 end
 
-local function addUserToAlerts(_source, job, jobgrade)
-    local User = VorpCore.getUser(_source).getUsedCharacter
+function AddUserToAlerts(_source, job, jobgrade)
+    local j = job
+    local jg = jobgrade
 
-    local j = job or User.job
-    local jg = jobgrade or User.jobGrade
-   
-    if AlertsGroups[j] and AlertsGroups[j][tostring(jg)] then --inherent jobcheck. If the job/grade is registered, then register user
+
+    if job == nil or jobgrade == nil then
+        local User = VorpCore.getUser(_source).getUsedCharacter
+        j = User.job
+        jg = User.jobGrade
+    end
+
+    print("CHECKING IF JOB HAS REGISTERED +ALERT", DumpTable(AlertsGroups))
+    if AlertsGroups[j] and AlertsGroups[j][tostring(jg)] then --inherent jobcheck. If the job/grade is registered as an alert, then register user
+        print("REGISTERING", j, jg)
         AlertsGroups[j][tostring(jg)][tostring(_source)] = {
             src = _source,
             job = j,
@@ -59,7 +76,7 @@ local function addUserToAlerts(_source, job, jobgrade)
     end
 end
 
-local function removeUserFromAlert(_source)
+function RemoveUserFromAlert(_source)
     local User = VorpCore.getUser(_source).getUsedCharacter
 
     if AlertsGroups[User.job] and AlertsGroups[User.job][tostring(User.jobGrade)] then
@@ -67,27 +84,32 @@ local function removeUserFromAlert(_source)
     end
 end
 
+-- Handle when a job is changes in Vorp
 AddEventHandler('vorp:setJob', function(_source, job, jobgrade)
-    removeUserFromAlert(_source)
-    addUserToAlerts(_source, job, jobgrade)
+    RemoveUserFromAlert(_source)
+    AddUserToAlerts(_source, job, jobgrade)
 end)
 
+-- Register User to alert. Client triggers this on character select
 RegisterServerEvent("bcc:alerts:register")
 AddEventHandler("bcc:alerts:register", function()
 	local _source = source
-    addUserToAlerts(_source)
+    AddUserToAlerts(_source)
 end)
 
-
+-- Remove player from alert list when player leaves server
 AddEventHandler('playerDropped', function(reason)
     local _source = source
-    removeUserFromAlert(_source)
+    RemoveUserFromAlert(_source)
 end)
 
+
+-- Setup config based alerts
 Citizen.CreateThread(function()
-    setupAlerts()
+    for index, alert in ipairs(Config.Alerts) do
+        RegisterAlert(alert)
+    end
 end)
 
--- API
-exports('RegisterAlert', RegisterAlert)
-exports('SendAlert', AlertPlayer)
+local BccUtils = exports['bcc-utils'].initiate()
+BccUtils.Versioner.checkRelease(GetCurrentResourceName(), 'https://github.com/BryceCanyonCounty/bcc-job-alerts')
