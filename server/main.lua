@@ -19,15 +19,13 @@ function DumpTable(o)
   end
 
 function AlertPlayer(src, alert)
-    local OriginUser = VorpCore.getUser(src).getUsedCharacter
-    local pos = json.decode(OriginUser.coords)
+    local pos = GetEntityCoords(GetPlayerPed(src))
     TriggerClientEvent("vorp:TipBottom", src, alert.originText, alert.originTime) --Send message to alerter
 
     Wait(alert.blipDelay)
 
     for key, jg in pairs(alert.jobgrade) do
         for K, person in pairs(AlertsGroups[alert.job][tostring(jg)]) do
-            print("SENDING ALERT TO", person)
             TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
         end
     end
@@ -58,16 +56,13 @@ function AddUserToAlerts(_source, job, jobgrade)
     local j = job
     local jg = jobgrade
 
-
     if job == nil or jobgrade == nil then
         local User = VorpCore.getUser(_source).getUsedCharacter
         j = User.job
         jg = User.jobGrade
     end
 
-    print("CHECKING IF JOB HAS REGISTERED +ALERT", DumpTable(AlertsGroups))
     if AlertsGroups[j] and AlertsGroups[j][tostring(jg)] then --inherent jobcheck. If the job/grade is registered as an alert, then register user
-        print("REGISTERING", j, jg)
         AlertsGroups[j][tostring(jg)][tostring(_source)] = {
             src = _source,
             job = j,

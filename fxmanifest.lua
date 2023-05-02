@@ -20,4 +20,4 @@ shared_scripts {
 
 dependency 'vorp_core'
 
-version '2.1.0'
+version '2.1.1'
