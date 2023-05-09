@@ -26,7 +26,7 @@ function AlertPlayer(src, alert)
 
     for key, jg in pairs(alert.jobgrade) do
         for K, person in pairs(AlertsGroups[alert.job][tostring(jg)]) do
-            TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
+            TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.texturedict, alert.icon, alert.radius, alert.blipTime) -- send alert to job
         end
     end
 end
