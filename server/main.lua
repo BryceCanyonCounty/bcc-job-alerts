@@ -1,9 +1,5 @@
-local VorpCore = {}
+local VorpCore = exports.vorp_core:GetCore()
 local AlertsGroups = {}
-
-TriggerEvent("getCore",function(core)
-    VorpCore = core
-end)
 
 function DumpTable(o)
     if type(o) == 'table' then
@@ -26,7 +22,7 @@ function AlertPlayer(src, alert)
 
     for key, jg in pairs(alert.jobgrade) do
         for K, person in pairs(AlertsGroups[alert.job][tostring(jg)]) do
-            TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
+            TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime, alert.color) -- send alert to job
         end
     end
 end
@@ -80,9 +76,11 @@ function RemoveUserFromAlert(_source)
 end
 
 -- Handle when a job is changes in Vorp
-AddEventHandler('vorp:setJob', function(_source, job, jobgrade)
-    RemoveUserFromAlert(_source)
-    AddUserToAlerts(_source, job, jobgrade)
+AddEventHandler("vorp:playerJobChange", function(source, job) 
+    local user = VorpCore.getUser(source)
+    local jobgrade = user.jobGrade
+    RemoveUserFromAlert(source)
+    AddUserToAlerts(source, job, jobgrade)
 end)
 
 -- Register User to alert. Client triggers this on character select
@@ -105,6 +103,3 @@ Citizen.CreateThread(function()
         RegisterAlert(alert)
     end
 end)
-
-local BccUtils = exports['bcc-utils'].initiate()
-BccUtils.Versioner.checkRelease(GetCurrentResourceName(), 'https://github.com/BryceCanyonCounty/bcc-job-alerts')
