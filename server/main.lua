@@ -20,28 +20,37 @@ function DumpTable(o)
 
 function AlertPlayer(src, alert)
     local pos = GetEntityCoords(GetPlayerPed(src))
-    TriggerClientEvent("vorp:TipBottom", src, alert.originText, alert.originTime) --Send message to alerter
 
     Wait(alert.blipDelay)
 
-    for key, jg in pairs(alert.jobgrade) do
-        for K, person in pairs(AlertsGroups[alert.job][tostring(jg)]) do
-            TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, alert.job, alert.hash, pos.x, pos.y, pos.z, alert.texturedict, alert.icon, alert.radius, alert.blipTime) -- send alert to job
+    -- Iterate over each job in the alert.jobs table
+    for _, job in pairs(alert.jobs) do
+        -- Iterate over each job grade in the alert.jobgrade table for the current job
+        for key, jg in pairs(alert.jobgrade[job]) do
+            if AlertsGroups[job] and AlertsGroups[job][tostring(jg)] then
+                for K, person in pairs(AlertsGroups[job][tostring(jg)]) do
+                    TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, job, alert.hash,
+                        pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
+                end
+            end
         end
     end
 end
 
 function RegisterAlert(alert)
-    if not AlertsGroups[alert.job] then
-        AlertsGroups[alert.job] = {}
-    end
-
-    for key, jobgrade in pairs(alert.jobgrade) do
-        if not AlertsGroups[alert.job][tostring(jobgrade)] then
-            AlertsGroups[alert.job][tostring(jobgrade)] = {}
+    for _, job in pairs(alert.jobs) do
+        if not AlertsGroups[job] then
+            AlertsGroups[job] = {}
         end
-    end
 
+        -- Ensure jobgrade for specific job is set correctly
+        for _, jobgrade in pairs(alert.jobgrade[job]) do
+            if not AlertsGroups[job][tostring(jobgrade)] then
+                AlertsGroups[job][tostring(jobgrade)] = {}
+            end
+        end
+
+        -- Register call command if specified
     if alert.command then
         RegisterCommand(alert.command, function(source, args, rawCommand)
             local src = source
