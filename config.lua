@@ -5,8 +5,12 @@ Config.Alerts = {
         command = 'alertpolice', -- the command, this is what players will use with /
         message = "Crime Reported!", -- Message to show to theh police
         messageTime = 40000, -- Time the message will stay on screen (miliseconds)
-        job = "police", -- Job the alert is for
-        jobgrade = { 0, 1, 2, 3 }, -- What grades the alert will effect
+        jobs = {"police", "sheriff"} -- Job the alert is for
+        jobgrade =
+        { 
+           police = {0,1,2,3},
+           sheriff = {0,1,2,3},
+        }, -- What grades the alert will effect
         icon = "star", -- The icon the alert will use
         texturedict = "generic_textures", --https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/textures/menu_textures
         hash = -1282792512, -- The radius blip
@@ -21,8 +25,12 @@ Config.Alerts = {
         command = 'alertdoctor',
         message = "Injury Reported!",
         messageTime = 40000,
-        job = "medic",
-        jobgrade = { 0, 1 },
+        jobs = {"medic", "doctor"} -- Job the alert is for
+        jobgrade =
+        { 
+           medic = {0,1,2,3},
+           doctor = {0,1,2,3},
+        }, -- What grades the alert will effect
         icon = "shield",
         texturedict = "generic_textures", --https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/textures/menu_textures
         hash = -1282792512,
