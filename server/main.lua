@@ -49,7 +49,7 @@ function RegisterAlert(alert)
                 AlertsGroups[job][tostring(jobgrade)] = {}
             end
         end
-
+    end
         -- Register call command if specified
     if alert.command then
         RegisterCommand(alert.command, function(source, args, rawCommand)
