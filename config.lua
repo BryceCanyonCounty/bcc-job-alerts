@@ -5,7 +5,7 @@ Config.Alerts = {
         command = 'alertpolice', -- the command, this is what players will use with /
         message = "Crime Reported!", -- Message to show to theh police
         messageTime = 40000, -- Time the message will stay on screen (miliseconds)
-        jobs = {"police", "sheriff"} -- Job the alert is for
+        jobs = {"police", "sheriff"}, -- Job the alert is for
         jobgrade =
         { 
            police = {0,1,2,3},
@@ -25,7 +25,7 @@ Config.Alerts = {
         command = 'alertdoctor',
         message = "Injury Reported!",
         messageTime = 40000,
-        jobs = {"medic", "doctor"} -- Job the alert is for
+        jobs = {"medic", "doctor"}, -- Job the alert is for
         jobgrade =
         { 
            medic = {0,1,2,3},
