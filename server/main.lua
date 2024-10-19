@@ -55,7 +55,7 @@ function RegisterAlert(alert)
         RegisterCommand(alert.command, function(source, args, rawCommand)
             local src = source
             AlertPlayer(src, alert)
-        end) 
+        end, false)
     end
 
     print("Alert Registered!", alert.name)
@@ -116,4 +116,4 @@ Citizen.CreateThread(function()
 end)
 
 local BccUtils = exports['bcc-utils'].initiate()
-BccUtils.Versioner.checkRelease(GetCurrentResourceName(), 'https://github.com/BryceCanyonCounty/bcc-job-alerts')
+BccUtils.Versioner.checkFile(GetCurrentResourceName(), 'https://github.com/BryceCanyonCounty/bcc-job-alerts')
