@@ -16,7 +16,8 @@
 1. Download this repo/codebase
 2. Extract and place `bcc-alerts` into your `resources` folder
 3. Add `ensure bcc-alerts` to your `server.cfg` file
-4. Restart your server (unless you have nightly restarts)
+4. Make sure dependencies are installed/updated and ensured before this script
+5. Restart your server (unless you have nightly restarts)
 
 ## How-to-use
 
