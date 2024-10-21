@@ -40,9 +40,14 @@ local banker_alert = exports['bcc-job-alerts']:RegisterAlert({
     command = nil, -- the command, this is what players will use with /
     message = "Taxes need to be done!", -- Message to show to theh police
     messageTime = 40000, -- Time the message will stay on screen (miliseconds)
-    job = "banker", -- Job the alert is for
-    jobgrade = { 0, 1, 2, 3 }, -- What grades the alert will effect
+    jobs = {"banker"}, -- Jobs the alert is for
+    jobgrade = 
+    {
+        banker = {0, 1, 2, 3 }, -- What grades the alert will effect
+    }
     icon = "star", -- The icon the alert will use
+    color = 'COLOR_WHITE', -- The color of the icon / https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/colours
+    texturedict = "generic_textures", --https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/textures/menu_textures
     hash = -1282792512, -- The radius blip
     radius = 40.0, -- The size of the radius blip
     blipTime = 60000, -- How long the blip will stay for the job (miliseconds)
