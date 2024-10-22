@@ -1,9 +1,5 @@
-local VorpCore = {}
+local Core = exports.vorp_core:GetCore()
 local AlertsGroups = {}
-
-TriggerEvent("getCore",function(core)
-    VorpCore = core
-end)
 
 function DumpTable(o)
     if type(o) == 'table' then
@@ -29,8 +25,8 @@ function AlertPlayer(src, alert)
         for key, jg in pairs(alert.jobgrade[job]) do
             if AlertsGroups[job] and AlertsGroups[job][tostring(jg)] then
                 for K, person in pairs(AlertsGroups[job][tostring(jg)]) do
-                    TriggerClientEvent('bcc:alertplayer', person.src, alert.message, alert.messageTime, job, alert.hash,
-                        pos.x, pos.y, pos.z, alert.icon, alert.radius, alert.blipTime) -- send alert to job
+                    TriggerClientEvent('bcc:alertplayer', person.src, job, alert.message, alert.texturedict, alert.icon, alert.messageTime, alert.color,
+                    alert.hash, pos.x, pos.y, pos.z, alert.radius, alert.blipTime) -- send alert to job
                 end
             end
         end
@@ -64,10 +60,13 @@ end
 function AddUserToAlerts(_source, job, jobgrade)
     local j = job
     local jg = jobgrade
+    local User = Core.getUser(_source).getUsedCharacter
 
-    if job == nil or jobgrade == nil then
-        local User = VorpCore.getUser(_source).getUsedCharacter
+    if job == nil then
         j = User.job
+    end
+
+    if jobgrade == nil then
         jg = User.jobGrade
     end
 
@@ -81,18 +80,26 @@ function AddUserToAlerts(_source, job, jobgrade)
 end
 
 function RemoveUserFromAlert(_source)
-    local User = VorpCore.getUser(_source).getUsedCharacter
+    local User = Core.getUser(_source).getUsedCharacter
 
     if AlertsGroups[User.job] and AlertsGroups[User.job][tostring(User.jobGrade)] then
         AlertsGroups[User.job][tostring(User.jobGrade)][tostring(_source)] = nil
     end
 end
 
--- Handle when a job is changes in Vorp
-AddEventHandler('vorp:setJob', function(_source, job, jobgrade)
+-- Handle when a job is changed in Vorp
+AddEventHandler("vorp:playerJobChange", function(source, newjob, oldjob)
+    local _source = source
     RemoveUserFromAlert(_source)
-    AddUserToAlerts(_source, job, jobgrade)
+    AddUserToAlerts(_source, newjob, nil)
 end)
+
+AddEventHandler("vorp:playerJobGradeChange",function(source, newjobgrade, oldjobgrade)
+    local _source = source
+    RemoveUserFromAlert(_source)
+    AddUserToAlerts(_source, nil, newjobgrade)
+end)
+
 
 -- Register User to alert. Client triggers this on character select
 RegisterServerEvent("bcc:alerts:register")

@@ -12,6 +12,7 @@ Config.Alerts = {
            sheriff = {0,1,2,3},
         }, -- What grades the alert will effect
         icon = "star", -- The icon the alert will use
+        color = 'COLOR_WHITE', -- The color of the icon / https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/colours
         texturedict = "generic_textures", --https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/textures/menu_textures
         hash = -1282792512, -- The radius blip
         radius = 40.0, -- The size of the radius blip
@@ -32,6 +33,7 @@ Config.Alerts = {
            doctor = {0,1,2,3},
         }, -- What grades the alert will effect
         icon = "shield",
+        color = 'COLOR_WHITE', -- The color of the icon / https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/colours
         texturedict = "generic_textures", --https://github.com/femga/rdr3_discoveries/tree/master/useful_info_from_rpfs/textures/menu_textures
         hash = -1282792512,
         radius = 40.0,

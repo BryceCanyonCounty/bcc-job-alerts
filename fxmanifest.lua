@@ -1,4 +1,4 @@
-fx_version 'adamant'
+fx_version 'cerulean'
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 game 'rdr3'
@@ -20,4 +20,4 @@ shared_scripts {
 
 dependency 'vorp_core'
 
-version '2.2.3'
+version '2.2.4'
