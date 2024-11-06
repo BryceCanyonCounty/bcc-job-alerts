@@ -7,6 +7,11 @@ RegisterNetEvent('bcc:alertplayer', function(title, msg, texturedir, icon, time,
 	RemoveBlip(blip)
 end)
 
+RegisterNetEvent('bcc:notification')
+AddEventHandler('bcc:notification', function(message)
+    Core.NotifyLeft("Police Alert", message, "generic_textures", "tick", 5000, (COLOR_WHITE) )
+end)
+
 RegisterNetEvent("vorp:SelectedCharacter", function(charid)
 	Wait(1000)
     TriggerServerEvent('bcc:alerts:register')
