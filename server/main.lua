@@ -20,8 +20,9 @@ function AlertPlayer(src, alert)
     Wait(alert.blipDelay)
 
     local notificationText = alert.alerterNotification or "You have Alerted !"
+    local notificationTitle = alert.alerterTitle or "Alert!"
 
-    TriggerClientEvent('bcc:notification', src, notificationText)
+    TriggerClientEvent('bcc:notification', src, notificationTitle, notificationText)
 
     -- Iterate over each job in the alert.jobs table
     for _, job in pairs(alert.jobs) do
