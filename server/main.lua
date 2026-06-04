@@ -1,4 +1,6 @@
 local Core = exports.vorp_core:GetCore()
+local BccUtils = exports['bcc-utils'].initiate()
+
 local AlertsGroups = {}
 
 function DumpTable(o)
@@ -127,5 +129,4 @@ Citizen.CreateThread(function()
     end
 end)
 
-local BccUtils = exports['bcc-utils'].initiate()
 BccUtils.Versioner.checkFile(GetCurrentResourceName(), 'https://github.com/BryceCanyonCounty/bcc-job-alerts')
