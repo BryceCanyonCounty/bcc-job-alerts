@@ -3,6 +3,7 @@
 > A RedM  job based alert/ping system for Vorp 
 
 ## Features
+
 1. Commands that players can utilize to alerts a job + jobgrade
 2. Police and Doctor preconfigured (/alertdoctor /alertpolice)
 3. Alerts are fully customizable
@@ -12,7 +13,13 @@
     - Delays
 4. Custom Alerts are supported via the config!
 
+## Dependencies
+
+- [vorp_core](https://github.com/VORPCORE/vorp-core-lua)
+- [bcc-utils](https://github.com/BryceCanyonCounty/bcc-utils)
+
 ## Installation
+
 1. Download this repo/codebase
 2. Extract and place `bcc-alerts` into your `resources` folder
 3. Add `ensure bcc-alerts` to your `server.cfg` file
@@ -22,17 +29,21 @@
 ## How-to-use
 
 ### Medic/Doctor
+
 1. You die, type `/alertdoctor` into chat
 2. All users with the roll `medic` get alerted and a 30 second map blip appears where `/alertdoctor` was called
 
 ### Police
+
 1. You are getting held up! Oh no, type `/alertpolice` into chat
 2. All users with the roll `police` get alerted and a 30 second map blip appears where `/alertpolice` was called
 
 ## How-to-configure
+
 All configurations available in `/config.lua`, including custom alerts!
 
 ## Developer Docs
+
 ```lua
 -- Must register alerts as soon as server starts so that when players join, they can be properly registered for the job alert
 local banker_alert = exports['bcc-job-alerts']:RegisterAlert({
@@ -61,7 +72,3 @@ RegisterCommand('TestBanker', function(src)
     banker_alert:SendAlert(src)
 end)
 ```
-
-## Dependency
- - bcc-utils
- - Vorp Core
